@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 class ProdukController extends Controller
 {
     /**

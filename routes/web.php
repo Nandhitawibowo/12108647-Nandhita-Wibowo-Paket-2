@@ -43,4 +43,9 @@ Route::get('/', [UserController::class, 'index'])->name('login');
         Route::post('/sales-data/post', [PenjualanController::class, 'store'])->name('sales.store');
         Route::delete("/sales-data/delete/{id}", [PenjualanController::class, 'destroy'])->name('sales.delete');
 
+
+        Route::delete("/sales-data/delete/{id}", [PenjualanController::class, 'destroy'])->name('sales.delete');
+        Route::get('/sales-data/print', [PenjualanController::class, 'print']);
+
+
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');

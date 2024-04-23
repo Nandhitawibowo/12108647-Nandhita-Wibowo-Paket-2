@@ -1,96 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
-    <style>
-        .container {
-            max-width: 32rem; /* 512px */
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        .card {
-            background-color: #ffffff;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .customer-info {
-            margin-bottom: 1rem;
-        }
-        .customer-info p {
-            margin: 0.5rem 0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 1rem;
-        }
-        th, td {
-            border-bottom: 1px solid #e5e7eb;
-            padding: 0.5rem;
-            text-align: left;
-        }
-        .total-row {
-            background-color: #f3f4f6;
-            font-weight: bold;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 2rem;
-        }
-        .footer p {
-            margin: 0.5rem 0;
-            font-size: 0.875rem;
-            color: #4b5563;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="card">
-            <div class="header">
-                <h2>KIETHA STORE</h2>
+@extends('layout')
+
+@section('layout')
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Data Penjualan</h1><br>
+    </div><!-- End Page Title -->
+    @if (Session::get('notAllowed'))
+				<div class="alert alert-danger" style="text-align: center">
+					{{ Session::get('notAllowed') }}
+				</div>
+			@endif
+      @if (Session::get('berhasil'))
+				<div class="alert alert-success" style="text-align: center">
+					{{ Session::get('berhasil') }}
+				</div>
+			@endif
+      @if (Session::get('success'))
+				<div class="alert alert-success" style="text-align: center">
+					{{ Session::get('success') }}
+				</div>
+			@endif
+      @if (Session::get('mantap'))
+      <div class="alert alert-success" style="text-align: center">
+        {{ Session::get('mantap') }}
+      </div>
+    @endif
+      @if (Session::get('sukses'))
+				<div class="alert alert-success" style="text-align: center">
+					{{ Session::get('sukses') }}
+				</div>
+			@endif
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+          <div class="row">
+
+            <div class=" col-12">
+              <div class="card info-card sales-card">
+
+                <div class="card-body">
+                 
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive"><br>
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Tanggal Penjualan</th>
+                                    <th>Total Harga</th>
+                                   
+                                    {{-- @if(Auth::user()->role=='petugas') --}}
+                                    <th></th>
+                                    {{-- @endif --}}
+                                </tr>
+                                @foreach ($penjualans as $penjualan)
+                                    <tr>
+                                        <td>{{ $penjualan->id }}</td>
+                                        <td>{{ $penjualan->pelanggan->customer_name }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($penjualan['sale_date'])->format('l, j F Y') }}</td>
+                                        <td>Rp. {{ $penjualan->total_price }}</td>
+                                     
+
+                                        {{-- @if(Auth::user()->role=='petugas') --}}
+                                        
+                                        
+                                        {{-- @endif --}}
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+              </div>
             </div>
-            <div class="customer-info">
-                <p>Nama Pelanggan: {{ $sale['customer']['name'] }}</p>
-                <p>Alamat Pelanggan: {{ $sale['customer']['address'] }}</p>
-                <p>No HP Pelanggan: {{ $sale['customer']['phone_number'] }}</p>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nama Produk</th>
-                        <th>Qty</th>
-                        <th>Harga</th>
-                        <th>Sub Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($sale['saleDetail'] as $item)
-                    <tr>
-                        <td>{{ $item['product']['name'] }}</td>
-                        <td>{{ $item['quantity'] }}</td>
-                        <td>Rp. {{ number_format($item['product']['price'], 0, ',', '.') }}</td>
-                        <td>Rp. {{ number_format($item['subtotal'], 0, ',', '.') }}</td>
-                    </tr>
-                    @endforeach
-                    <tr class="total-row">
-                        <td colspan="3">Total Harga</td>
-                        <td>Rp. {{ number_format($sale['price_total'], 0, ',', '.') }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="footer">
-                <p>{{ $sale['created_at'] }} | {{ $sale['user']['name'] }}</p>
-                <p><strong>Terima kasih</strong></p>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  @endsection
+
+@section('scripts')
+    <script>
+        function addProductInput() {
+            var productInputs = document.getElementById('productInputs');
+            var newProductInput = productInputs.children[0].cloneNode(true);
+            var dicountInput = document.getElementById('discount');
+            productInputs.appendChild(newProductInput);
+            newProductInput.querySelectorAll('input').forEach(function(input) {
+                input.value = '';
+                discountInput.value = 0;
+            });
+        }
+
+        function removeProductInput(button) {
+            var cardBody = button.closest('.card-body');
+            cardBody.parentElement.remove();
+        }
+    </script>
+ 
+@endsection
+
+<script type="text/javascript">
+    window.print()
+</script>
 

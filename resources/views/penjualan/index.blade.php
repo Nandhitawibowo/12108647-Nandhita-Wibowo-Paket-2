@@ -45,7 +45,7 @@
                 <div class="card-body">
                   <div class="form-group d-flex justify-content-between align-items-center">
                     <div style="margin-top: 20px;">
-                        <a href="#" class="btn btn-success">Export Data Penjualan (.xlsx)</a>
+                        <a href="/sales-data/print" target="_blank" class="btn btn-success">Export Data Penjualan (.pdf)</a>
                     </div>
                     {{-- @if(Auth::user()->role=='petugas') --}}
                     <div style="margin-top: 20px;">

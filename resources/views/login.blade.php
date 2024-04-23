@@ -19,16 +19,12 @@
     <title>Aplikasi Kasir</title>
   </head>
   <body>
-  
-
+    
   <div class="d-lg-flex half">
-    <div class="bg order-1 order-md-2" style="background-image: url({{asset('assets/assets_auth/images/ppp.jpg')}});"></div>
-    <div class="contents order-2 order-md-1">
-
       <div class="container">
         <div class="row align-items-center justify-content-center">
           <div class="col-md-7">
-            <h3>Login to <strong>Aplikasi  Kasir</strong></h3>
+            <h3>Aplikasi Kasir</h3>
             <p class="mb-4">Selamat Datang di Aplikasi Kasir</p>
 
             @if (Session::get('success'))

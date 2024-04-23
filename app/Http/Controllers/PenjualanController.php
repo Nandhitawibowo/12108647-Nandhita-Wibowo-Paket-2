@@ -108,4 +108,10 @@ class PenjualanController extends Controller
         $penjualans->delete();
         return back()->with("mantap", "History deleted successfully.");
     }
+
+    public function print()
+    {
+        $penjualans = Penjualan::with(['pelanggan', 'detailPenjualan.product'])->get();
+        return view('penjualan.pdf', compact('penjualans'));
+    }
 }
